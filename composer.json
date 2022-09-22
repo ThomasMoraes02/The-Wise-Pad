@@ -1,0 +1,23 @@
+{
+    "name": "thomas/thewisepad-v1",
+    "description": "projeto the wisepad do livro de arquitetura limpa do otavio lemos",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\" : "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thomas Moraes",
+            "email": "tho.vini7@gmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "7.2"
+    }
+}
