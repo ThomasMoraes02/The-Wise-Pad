@@ -15,7 +15,7 @@ class WebController
         $this->controllerOp = $controllerOp;
     }
 
-    public function handle(HttpRequest $httpRequest)
+    public function handle(array $httpRequest)
     {
         try {
             $missingParams = WebController::getMissingParams($httpRequest, $this->controllerOp['requiredParams']);
@@ -28,10 +28,15 @@ class WebController
         }
     }
 
-    public static function getMissingParams(HttpRequest $httpRequest, array $requiredParams)
+    public static function getMissingParams($httpRequest, array $requiredParams)
     {
         $missingParams = [];
-        $missingParams = array_diff_key($requiredParams, $httpRequest);
+        $missingParams = array_udiff($requiredParams, $httpRequest, function($a, $b) {
+            if($a != $b) {
+                return $a;
+            }
+        });
+        
         return $missingParams;
     }
 }
