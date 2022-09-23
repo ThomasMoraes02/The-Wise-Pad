@@ -3,5 +3,5 @@ namespace App\Application\Web;
 
 interface ControllerOperation
 {
-    public function specificOp(HttpRequest $request);
+    public function specificOp($request);
 }

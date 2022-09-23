@@ -4,6 +4,7 @@ namespace App\Application;
 use App\Domain\UseCases\UseCase;
 use App\Application\Web\HttpHelper;
 use App\Application\Web\ControllerOperation;
+use App\Domain\Exception\EmailException;
 use App\Domain\Exception\UserRepositoryException;
 
 class SignUpOperation implements ControllerOperation
@@ -20,18 +21,19 @@ class SignUpOperation implements ControllerOperation
 
     public function specificOp($request)
     {
-        $response = $this->useCase->perform([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => $request['password'],
-        ]);
+        try {
+            $response = $this->useCase->perform([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => $request['password'],
+            ]);
 
-        if($response['email'] == $request['email']) {
-            return $this->created($response);
-        }
+            if($response['email'] == $request['email']) {
+                return $this->created($response);
+            }    
 
-        if($response instanceof UserRepositoryException) {
-            return $this->forbidden($response);
+        } catch(UserRepositoryException | EmailException $e) {
+            return $this->forbidden($e);
         }
 
         return $this->badRequest($response);
